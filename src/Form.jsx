@@ -1,27 +1,27 @@
 import { useState } from "react";
 
-function Form() {
-  const [book, setBook] = useState(""); // For input
+function Form({ onSubmit }) {
+  const [quote, setQuote] = useState(""); // For input
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Avoid page reload
 
-    console.log(book);
-    setBook(""); // Empty the input
+    onSubmit(quote); // Updating the parent state
+
+    setQuote(""); // Empty the input
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-        <legend>Add a book</legend>
+        <legend>Add a quote</legend>
         <input
           type="text"
-          name="quotes"
-          id="quotes"
-          placeholder="Enter a book"
+          name="quote"
+          placeholder="Enter a quote"
           autoComplete="off"
-          value={book}
-          onChange={(e) => setBook(e.target.value)}
+          value={quote}
+          onChange={(e) => setQuote(e.target.value)}
         />
         <button type="submit">Add</button>
       </fieldset>
