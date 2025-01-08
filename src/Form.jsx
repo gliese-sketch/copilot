@@ -13,7 +13,7 @@ function Form({ onSubmit }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <fieldset>
+      <fieldset style={{ display: "flex", gap: "6px" }}>
         <legend>Add a quote</legend>
         <input
           type="text"
