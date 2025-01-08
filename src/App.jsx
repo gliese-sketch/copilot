@@ -19,32 +19,23 @@ function App() {
   };
 
   const handleLike = (id) => {
-    const newQuotes = [];
-
-    for (let quote of quotes) {
-      if (quote.id === id && quote.likes < 10) {
-        // newQuotes.push({ likes: quote.likes + 1, ...quote }); // ❌🙏 Don't Use
-        newQuotes.push({ ...quote, likes: quote.likes + 1 });
-      } else {
-        newQuotes.push(quote);
-      }
-    }
-
-    setQuotes(newQuotes);
+    setQuotes(
+      quotes.map((quote) =>
+        quote.id === id ? { ...quote, likes: quote.likes + 1 } : quote
+      )
+    );
   };
 
   const handleDislike = (id) => {
-    const newQuotes = [];
+    setQuotes(
+      quotes.map((quote) =>
+        quote.id === id ? { ...quote, likes: quote.likes - 1 } : quote
+      )
+    );
+  };
 
-    for (let quote of quotes) {
-      if (quote.id === id && quote.likes > 0) {
-        newQuotes.push({ ...quote, likes: quote.likes - 1 });
-      } else {
-        newQuotes.push(quote);
-      }
-    }
-
-    setQuotes(newQuotes);
+  const quoteSort = () => {
+    setQuotes([...quotes].sort((a, b) => b.likes - a.likes));
   };
 
   return (
@@ -53,7 +44,7 @@ function App() {
         <h1>Copilot</h1>
       </header>
 
-      <Form onSubmit={addQuote} />
+      <Form onSubmit={addQuote} onSort={quoteSort} />
 
       {quotes.map((quote) => (
         <pre key={quote.id}>
@@ -62,7 +53,12 @@ function App() {
           <div style={{ display: "flex", gap: "6px" }}>
             <button onClick={() => handleLike(quote.id)}>Like</button>
             <button onClick={() => handleDislike(quote.id)}>Dislike</button>
-            <button onClick={() => deleteQuote(quote.id)}>Delete</button>
+            <button
+              style={{ background: "red" }}
+              onClick={() => deleteQuote(quote.id)}
+            >
+              Delete
+            </button>
           </div>
         </pre>
       ))}

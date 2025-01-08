@@ -1,14 +1,12 @@
 import { useState } from "react";
 
-function Form({ onSubmit }) {
-  const [quote, setQuote] = useState(""); // For input
+function Form({ onSubmit, onSort }) {
+  const [quote, setQuote] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Avoid page reload
-
-    onSubmit(quote); // Updating the parent state
-
-    setQuote(""); // Empty the input
+    event.preventDefault();
+    onSubmit(quote);
+    setQuote("");
   };
 
   return (
@@ -23,6 +21,9 @@ function Form({ onSubmit }) {
           value={quote}
           onChange={(e) => setQuote(e.target.value)}
         />
+        <button style={{ background: "tomato" }} type="button" onClick={onSort}>
+          Sort
+        </button>
         <button type="submit">Add</button>
       </fieldset>
     </form>
