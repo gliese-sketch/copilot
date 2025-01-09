@@ -5,6 +5,9 @@ function Form({ onSubmit, onSort }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!quote.trim()) return;
+
     onSubmit(quote);
     setQuote("");
   };
@@ -24,7 +27,9 @@ function Form({ onSubmit, onSort }) {
         <button style={{ background: "tomato" }} type="button" onClick={onSort}>
           Sort
         </button>
-        <button type="submit">Add</button>
+        <button type="submit" disabled={!quote}>
+          Add
+        </button>
       </fieldset>
     </form>
   );
