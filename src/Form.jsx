@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Funnel, PlusLg } from "react-bootstrap-icons";
 
 function Form({ onSubmit, onSort }) {
   const [quote, setQuote] = useState("");
@@ -25,10 +26,10 @@ function Form({ onSubmit, onSort }) {
           onChange={(e) => setQuote(e.target.value)}
         />
         <button style={{ background: "tomato" }} type="button" onClick={onSort}>
-          Sort
+          <Funnel />
         </button>
         <button type="submit" disabled={!quote}>
-          Add
+          <PlusLg />
         </button>
       </fieldset>
     </form>

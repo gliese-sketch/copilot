@@ -1,42 +1,47 @@
-import { useState } from "react";
+import { useReducer } from "react";
+
+// Components
 import Form from "./Form";
+import QuotesList from "./QuotesList";
+
+const quotesReducer = () => {};
 
 function App() {
-  const [quotes, setQuotes] = useState([]);
+  const [quotes, dispatch] = useReducer(quotesReducer, []);
 
-  const addQuote = (quote) => {
-    const newQuote = {
-      id: crypto.randomUUID(),
-      text: quote,
-      likes: 1,
-    };
+  // const addQuote = (quote) => {
+  //   const newQuote = {
+  //     id: crypto.randomUUID(),
+  //     text: quote,
+  //     likes: 1,
+  //   };
 
-    setQuotes([newQuote, ...quotes]);
-  };
+  //   setQuotes([newQuote, ...quotes]);
+  // };
 
-  const deleteQuote = (id) => {
-    setQuotes(quotes.filter((q) => q.id !== id));
-  };
+  // const deleteQuote = (id) => {
+  //   setQuotes(quotes.filter((q) => q.id !== id));
+  // };
 
-  const handleLike = (id) => {
-    setQuotes(
-      quotes.map((quote) =>
-        quote.id === id ? { ...quote, likes: quote.likes + 1 } : quote
-      )
-    );
-  };
+  // const handleLike = (id) => {
+  //   setQuotes(
+  //     quotes.map((quote) =>
+  //       quote.id === id ? { ...quote, likes: quote.likes + 1 } : quote
+  //     )
+  //   );
+  // };
 
-  const handleDislike = (id) => {
-    setQuotes(
-      quotes.map((quote) =>
-        quote.id === id ? { ...quote, likes: quote.likes - 1 } : quote
-      )
-    );
-  };
+  // const handleDislike = (id) => {
+  //   setQuotes(
+  //     quotes.map((quote) =>
+  //       quote.id === id ? { ...quote, likes: quote.likes - 1 } : quote
+  //     )
+  //   );
+  // };
 
-  const quoteSort = () => {
-    setQuotes([...quotes].sort((a, b) => b.likes - a.likes));
-  };
+  // const quoteSort = () => {
+  //   setQuotes([...quotes].sort((a, b) => b.likes - a.likes));
+  // };
 
   return (
     <>
@@ -44,24 +49,17 @@ function App() {
         <h1>Copilot</h1>
       </header>
 
-      <Form onSubmit={addQuote} onSort={quoteSort} />
+      <Form
+        onSubmit={(value) => dispatch({ type: "ADD", payload: value })}
+        onSort={() => dispatch({ type: "SORT" })}
+      />
 
-      {quotes.map((quote) => (
-        <pre key={quote.id}>
-          <h3>{quote.text}</h3>
-          <p>{quote.likes}</p>
-          <div style={{ display: "flex", gap: "6px" }}>
-            <button onClick={() => handleLike(quote.id)}>Like</button>
-            <button onClick={() => handleDislike(quote.id)}>Dislike</button>
-            <button
-              style={{ background: "red" }}
-              onClick={() => deleteQuote(quote.id)}
-            >
-              Delete
-            </button>
-          </div>
-        </pre>
-      ))}
+      <QuotesList
+        quotes={quotes}
+        onLike={(id) => dispatch({ type: "LIKE", payload: id })}
+        onDislike={(id) => dispatch({ type: "DISLIKE", payload: id })}
+        onDelete={(id) => dispatch({ type: "DELETE", payload: id })}
+      />
     </>
   );
 }
