@@ -8,7 +8,7 @@ function Form({ onSubmit, onSort }) {
 
     if (!quote.trim()) return;
 
-    onSubmit(quote);
+    onSubmit(quote.trim());
     setQuote("");
   };
 
